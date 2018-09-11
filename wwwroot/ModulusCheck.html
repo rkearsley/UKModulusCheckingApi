@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ModulusCheck</title>
+</head>
+<body>
+    <div id="response">
+        <pre id="resp"></pre>
+    </div>
+
+    <form id="ModulusForm">
+        <input type="text" id="SortCode" name="SortCode" placeholder="Sort Code" />
+        <input type="text" id="AccountNumber" name="AccountNumber" placeholder="Account Number" />
+        <input id="submit" type="button" name="submit" value="submit">
+    </form>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#submit").on('click', function () {
+                $.ajax({
+                    url: '/api/ModulusCheck',
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: "{ \"SortCode\":\"" + $("#SortCode").val() + "\", \"AccountNumber\":\"" + $("#AccountNumber").val() + "\" }", // post data || get data
+                    success: function (result) {
+                        $("#resp").text(JSON.stringify(result, null, 2));
+                    },
+                    error: function (xhr, resp, text) {
+                        $("#resp").text(text);
+                    }
+                })
+            });
+        });
+
+    </script>
+</body>
+</html>
+
